@@ -1,12 +1,12 @@
 {
   "compilerOptions": {
-    "target": "es2015",
+    "target": "es5",
     "module": "commonjs",
     "moduleResolution": "node"
   },
-  "files": [
-    "index.d.ts",
-    "test/test.ts",
-    "typings/main.d.ts"
+  "exclude": [
+    "node_modules",
+    "typings/browser.d.ts",
+    "typings/browser"
   ]
 }
