@@ -6,7 +6,6 @@
  */
 import { Component, SyntheticEvent, FormEventHandler } from 'react';
 import { Dispatch, Action, Reducer } from 'redux';
-import { Promise } from 'es6-promise';
 
 declare namespace ReduxForm {
 
