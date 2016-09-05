@@ -5,7 +5,8 @@
  * Added action creators too
  */
 import { Component, SyntheticEvent, FormEventHandler } from 'react';
-import { IDispatch as Dispatch, IReducer as Reducer, IAction } from 'redux';
+import { Dispatch, Action, Reducer } from 'redux';
+import { Promise } from 'es6-promise';
 
 declare namespace ReduxForm {
 
@@ -14,6 +15,8 @@ declare namespace ReduxForm {
     export type FieldValue = any;
 
     export type FormData = {[fieldName:string]: FieldValue};
+
+    export class Field extends Component<FieldProp, any> {}
 
     export interface FieldProp {
         /**
@@ -192,7 +195,7 @@ declare namespace ReduxForm {
          */
         handleSubmit?(event:SyntheticEvent):void;
 
-        handleSubmit?(submit:(data:FormData, dispatch?:Dispatch)
+        handleSubmit?(submit:(data:FormData, dispatch?:Dispatch<any>)
             => Promise<any>|void):FormEventHandler;
 
         /**
@@ -285,7 +288,7 @@ declare namespace ReduxForm {
     }
 
     interface MapDispatchToPropsFunction {
-        (dispatch:Dispatch, ownProps?:any): any;
+        (dispatch:Dispatch<any>, ownProps?:any): any;
     }
 
     interface MapDispatchToPropsObject {
@@ -325,7 +328,7 @@ declare namespace ReduxForm {
          *
          * See Asynchronous Blur Validation Example for more details.
          */
-        asyncValidate?(values:FormData, dispatch:Dispatch, props:Object):
+        asyncValidate?(values:FormData, dispatch:Dispatch<any>, props:Object):
             Promise<any>;
 
         /**
@@ -365,7 +368,7 @@ declare namespace ReduxForm {
          * you must pass it as a parameter to handleSubmit() inside your form
          * component.
          */
-        onSubmit?(values:FormData, dispatch?:Dispatch): any;
+        onSubmit?(values:FormData, dispatch?:Dispatch<any>): any;
 
         /**
          * If specified, all the props normally passed into your decorated
@@ -470,9 +473,9 @@ declare namespace ReduxForm {
      * @param {string} form Form name
      * @param {string} field Field name
      * @param {*} value Value to change
-     * @returns {IAction} Action
+     * @returns {Action} Action
      */
-    export function blur(form: string, field: string, value: any): IAction;
+    export function blur(form: string, field: string, value: any): Action;
     /**
      * Saves the value to the field
      * 
@@ -480,9 +483,9 @@ declare namespace ReduxForm {
      * @param {string} form Form name
      * @param {string} field Field name
      * @param {*} value Value to change
-     * @returns {IAction} Action
+     * @returns {Action} Action
      */
-    export function change(form: string, field: string, value: any): IAction;
+    export function change(form: string, field: string, value: any): Action;
     /**
      * Saves the value to the field in the form specified under the key. For use when using multirecord forms
      * 
@@ -491,18 +494,18 @@ declare namespace ReduxForm {
      * @param {string} formKey Form key
      * @param {string} field Form field
      * @param {*} value Value to change
-     * @returns {IAction} Action
+     * @returns {Action} Action
      */
-    export function changeWithKey(form: string, formKey: string, field: string, value: any): IAction;
+    export function changeWithKey(form: string, formKey: string, field: string, value: any): Action;
     /**
      * Marks the given field as active and visited
      * 
      * @export
      * @param {string} form Form name
      * @param {string} field Field name
-     * @returns {IAction} Action
+     * @returns {Action} Action
      */
-    export function focus(form: string, field: string): IAction;
+    export function focus(form: string, field: string): Action;
     /**
      * Sets the initial values in the form with which future data values will be compared to calculate dirty and pristine.
      * The data parameter may contain deep nested array and object values that match the shape of your form fields.
@@ -512,9 +515,9 @@ declare namespace ReduxForm {
      * @param {string} form Form name
      * @param {Object} data Data object
      * @param {string[]} fields Fields array
-     * @returns {IAction} Action
+     * @returns {Action} Action
      */
-    export function initialize(form: string, data: Object, fields: string[]): IAction;
+    export function initialize(form: string, data: Object, fields: string[]): Action;
     /**
      * Used when editing multiple records with the same form component. Useful when editing multiple records.
      * 
@@ -523,70 +526,70 @@ declare namespace ReduxForm {
      * @param {string} formKey Form key
      * @param {Object} data Data object
      * @param {string[]} fields Fields array
-     * @returns {IAction} Action
+     * @returns {Action} Action
      */
-    export function initializeWithKey(form: string, formKey: string, data: Object, fields: string[]): IAction;
+    export function initializeWithKey(form: string, formKey: string, data: Object, fields: string[]): Action;
     /**
      * Resets the values in the form back to the values past in with the most recent initialize action.
      * 
      * @export
      * @param {string} form Form name
-     * @returns {IAction} Action
+     * @returns {Action} Action
      */
-    export function reset(form: string): IAction;
+    export function reset(form: string): Action;
     /**
      * Flips the asyncValidating flag true
      * 
      * @export
      * @param {string} form Form name
      * @param {string} [field] Optional field name
-     * @returns {IAction} Action
+     * @returns {Action} Action
      */
-    export function startAsyncValidation(form: string, field?: string): IAction;
+    export function startAsyncValidation(form: string, field?: string): Action;
     /**
      * Flips the submitting flag true.
      * 
      * @export
      * @param {string} form Form name
-     * @returns {IAction} Action
+     * @returns {Action} Action
      */
-    export function startSubmit(form: string): IAction;
+    export function startSubmit(form: string): Action;
     /**
      * Flips the submitting flag false and populates submitError for each field.
      * 
      * @export
      * @param {string} form Form name
      * @param {Object} [errors] Optional error object
-     * @returns {IAction} Action
+     * @returns {Action} Action
      */
-    export function stopSubmit(form: string, errors?: Object): IAction;
+    export function stopSubmit(form: string, errors?: Object): Action;
     /**
      * Flips the asyncValidating flag false and populates asyncError for each field.
      * 
      * @export
      * @param {string} form Form name
      * @param {Object} [errors] Optional error object
-     * @returns {IAction} Action
+     * @returns {Action} Action
      */
-    export function stopAsyncValidation(form: string, errors?: Object): IAction;
+    export function stopAsyncValidation(form: string, errors?: Object): Action;
     
     /**
      * Destroys the form, removing all it's state
      * 
      * @export
      * @param {string} form Form name
-     * @returns {IAction} Action
+     * @returns {Action} Action
      */
-    export function destroy(form: string): IAction;
+    export function destroy(form: string): Action;
     /**
      * Marks all the fields passed in as touched.
      * 
      * @export
      * @param {string} form Form name
      * @param {...string[]} fields Fields to mark them as touched
-     * @returns {IAction} Action
+     * @returns {Action} Action
      */
-    export function touch(form: string, ...fields: string[]): IAction;
+    export function touch(form: string, ...fields: string[]): Action;
     /**
      * Marks all the fields passed in as touched in the form at the specified formKey. For use with multirecord forms.
      * 
@@ -594,18 +597,18 @@ declare namespace ReduxForm {
      * @param {string} form Form name
      * @param {string} formKey Form key
      * @param {...string[]} fields Fields to mark them as touched
-     * @returns {IAction} Action
+     * @returns {Action} Action
      */
-    export function touchWithKey(form: string, formKey: string, ...fields: string[]): IAction;
+    export function touchWithKey(form: string, formKey: string, ...fields: string[]): Action;
     /**
      * Resets the 'touched' flag for all the fields passed in.
      * 
      * @export
      * @param {string} form Form name
      * @param {...string[]} fields Fields to mark them as untouched
-     * @returns {IAction} Action
+     * @returns {Action} Action
      */
-    export function untouch(form: string,...fields: string[]): IAction;
+    export function untouch(form: string,...fields: string[]): Action;
     /**
      * Resets the touched flag for all the fields passed in on the form at the specified formKey. For use with multirecord forms.
      * 
@@ -613,9 +616,9 @@ declare namespace ReduxForm {
      * @param {string} form Form name
      * @param {string} formKey Form key
      * @param {...string[]} fields Fields to mark them as untouched
-     * @returns {IAction} Action
+     * @returns {Action} Action
      */
-    export function untouchWithKey(form: string, formKey: string, ...fields: string[]): IAction;
+    export function untouchWithKey(form: string, formKey: string, ...fields: string[]): Action;
 }
 
 export = ReduxForm;

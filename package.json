@@ -1,17 +1,26 @@
 {
-  "scripts": {
+  "name": "typings-redux-form",
+  "version": "1.0.0",
+  "scripts": {    
     "build": "typings bundle . -o bundle.d.ts",
+    "pretest" : ". ./activate_env",
     "test": "ts-node test/test.ts"
   },
   "private": true,
+  "engines": {
+    "node": ">= 6.3.0"
+  },
   "devDependencies": {
-    "react": "^0.14.8",
-    "react-dom": "^0.14.8",
-    "react-redux": "^4.4.1",
+    "react": "^15.3.0",
+    "react-dom": "^15.3.0",
+    "react-redux": "^4.4.5",
     "redux": "^3.3.1",
-    "redux-form": "^4.2.0",
-    "ts-node": "^0.5.5",
-    "tslint": "^3.5.0",
-    "typescript": "^1.8.7"
+    "redux-form": "^6.0.2",
+    "ts-node": "^0.7.3",
+    "tslint": "^3.10.1",
+    "typescript": "^1.8.10"
+  },
+  "dependencies": {
+    "typings": "^1.3.3"
   }
 }
