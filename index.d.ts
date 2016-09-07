@@ -335,6 +335,12 @@ declare namespace ReduxForm {
          * store when your component is unmounted. Defaults to true.
          */
         destroyOnUnmount?: boolean;
+        
+        /**
+         * 
+         * Whether or not the form should reinitialize the initialState   
+         */
+        enableReinitialize?:boolean;
 
         /**
          * The key for your sub-form.
