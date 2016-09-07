@@ -43,3 +43,6 @@ bundle.d.ts
 
 # output folder
 out
+
+# code
+.vscode
